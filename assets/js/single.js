@@ -1,5 +1,22 @@
 const issueContainerEl = document.querySelector("#issues-container");
 const limitWarningEl = document.querySelector("#limit-warning");
+const repoNameEl = document.querySelector("#repo-name");
+
+const getRepoName = () => {
+    //grab repo name form url query string
+    let queryString = document.location.search;
+    let repoName = queryString.split("=")[1];
+
+    if(repoName) {
+        //display repo name on the page
+        repoNameEl.textContent = repoName;
+
+        getRepoIssues(repoName);
+    } else {
+        // if no repo was given, redirect to home page
+        document.location.replace("./index.html");
+    }
+};
 
 const displayWarning = (repo) => {
     //add text to warning container
@@ -61,9 +78,10 @@ fetch(apiUrl).then(function(response) {
         });
     }
     else {
-        alert("There was a problem with your request!");
+        // redirect to homepage
+        document.location.replace("./index.html");
     }
 })
 };
 
-getRepoIssues("facebook/react");
+getRepoName();
